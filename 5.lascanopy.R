@@ -11,27 +11,20 @@ system(paste(file.path(lastools.dir,"lascanopy.exe"),
              "-odir",file.path(products.dir),
              "-o",outfiles),invisible=F)
 
-# import csv from lastools as a data frame
+# 2 importlastools csv as a data frame
 lascan <- read.csv(file.path(products.dir,outfiles))
 
-# Add plot number column to laser metrics
+# 3 Add plot number column to laser metrics
 lascan$RIPID <- as.numeric(sub(".las","",
                   sub("C:/gaines/projects/lubrecht/data/LiDAR/Clipped/crip","",
                       as.character(lascan$file_name))))
-
 lascan <- lascan[,-1]
 
-write.csv(plot.summ, file="lefplotsummary15.csv", row.names=F)
-write.csv(lascan, file="lefplotlasermetrics2015.csv", row.names=F)
+# 4 Remove ten plots from lascan with no large trees, ie not in plot.summ
+# They were plots 13, 14, 89, 1010, 1011, 1012, 1014, 1015, 1016, 1017
 
-?princomp
-pc <- princomp(lascan[,1:(ncol(lascan)-1)], cor=T)
+lascan <- lascan[-c(13,14,15,17,18,19,20,23,24,106),]
 
-summary(pc)
-pc$loadings
-biplot(pc)
+# 5 merge plot.summ and lascan
+metrics <- merge(lascan, plot.summ, by="RIPID")
 
-
-xyplot(max ~ cov, data=lascan)
-xyplot(ske ~ cov, data=lascan)
-xyplot(ske ~ max, data=lascan)

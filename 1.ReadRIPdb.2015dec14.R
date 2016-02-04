@@ -1,7 +1,5 @@
 # reads in the database tables
 
-# I'm writing this line to see if something happens in Git, again.
-
 library(lattice)
 library(RODBC)
 
@@ -9,7 +7,7 @@ library(RODBC)
 accessdb <- "CFC_RIPDB_2015_010316.accdb"
 db.dir <- "c:\\gaines\\projects\\lubrecht\\data"
 #db.dir <- "//cfc.umt.edu/Resources/Lubrecht/ResourceInventoryPlots"
-code.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code"
+code.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code\\laser_lef"
 
 #! 2. read the tables from the Access DB
 setwd(db.dir)
@@ -26,7 +24,7 @@ close(path)
 names(rip.db)
 
 #! 3. error checking species
-levels(rip.db$RIPlargetrees$Species)
-allowable.spp <- c("DF","AF","BC","ES","LP","PP","QA","RJ","WL","MA","UN")
-rip.db$RIPlargetrees[!(rip.db$RIPlargetrees$Species %in% allowable.spp),]
+# levels(rip.db$RIPlargetrees$Species)
+# allowable.spp <- c("DF","AF","BC","ES","LP","PP","QA","RJ","WL","MA","UN")
+# rip.db$RIPlargetrees[!(rip.db$RIPlargetrees$Species %in% allowable.spp),]
 

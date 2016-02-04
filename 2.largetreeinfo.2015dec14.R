@@ -10,30 +10,30 @@ large.trees <- merge(large.trees, dateinfo[,c(1:3,5)], all.x=T)
 #! 2. get 2015 measurements and check
 large.trees15 <- droplevels(large.trees[large.trees$year==2015,])
 
-xyplot(TotalHt ~ DBH | Species, data=large.trees15,
-       panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
+#xyplot(TotalHt ~ DBH | Species, data=large.trees15,
+ #      panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
 
-xyplot(CrownHT ~ TotalHt |  Species, data=large.trees15,
-       panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
+#xyplot(CrownHT ~ TotalHt |  Species, data=large.trees15,
+ #      panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
 
 # Plot CrownHT/TotalHT by species; Use 'identify' to find weird trees
-spp <- "DF"
+#spp <- "DF"
 
-not.missing <- large.trees15$Species==spp&!is.na(large.trees15$TotalHt)&!is.na(large.trees15$CrownHT)
+#not.missing <- large.trees15$Species==spp&!is.na(large.trees15$TotalHt)&!is.na(large.trees15$CrownHT)
 
-plot(large.trees15$TotalHt[not.missing], large.trees15$CrownHT[not.missing])
-      abline(0,1)
+#plot(large.trees15$TotalHt[not.missing], large.trees15$CrownHT[not.missing])
+ #     abline(0,1)
 
-identify(large.trees15$CrownHT[large.trees15$Species==spp], 
-     large.trees15$TotalHt[large.trees15$Species==spp], 
-     large.trees15$ID[large.trees15$Species==spp])
+#identify(large.trees15$CrownHT[large.trees15$Species==spp], 
+ #    large.trees15$TotalHt[large.trees15$Species==spp], 
+ #    large.trees15$ID[large.trees15$Species==spp])
     
-# crown heights exceed total heights - check!
-large.trees15[!is.na(large.trees15$CrownHT) & !is.na(large.trees15$TotalHt) &
-              large.trees15$CrownHT>.9*large.trees15$TotalHt, ]
+# crown heights exceed total heights - checked for crown heights>.9(totalht)
+#large.trees15[!is.na(large.trees15$CrownHT) & !is.na(large.trees15$TotalHt) &
+ #             large.trees15$CrownHT>.9*large.trees15$TotalHt, ]
 
 
-table(large.trees15$Status)
+#table(large.trees15$Status)
 
 
 # subset analysis data
@@ -61,7 +61,7 @@ proj.ds$live.count <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"
 #  add a 'squared DBH'column
 proj.ds$DBHsq <- proj.ds$DBH^2
 
-#  5) sum ba/plot, ba.live/plot, DBH/plot, 
+#  5) sum and aggregate to plot level 
 plot.summ <- aggregate(proj.ds[, c(6,7,9,17,18,19,20,21)], by=list(RIPID=proj.ds$RIPID), sum, na.rm=T)
 
 #  7) Arithmetic mean DBH per plot
