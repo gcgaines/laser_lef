@@ -1,6 +1,6 @@
 # reads in the database tables
 
-# I'm writing this line to see if something happens in Git
+# I'm writing this line to see if something happens in Git, again.
 
 library(lattice)
 library(RODBC)
