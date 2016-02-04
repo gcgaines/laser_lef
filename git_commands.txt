@@ -1,0 +1,9 @@
+Set WD to repo: cd c:/gaines/projects/lubrecht/data/code/laser_lef
+Add changes and track new files: git add -A
+check what's ready to commit: git status -s 
+Commit to next push: git commit -m "Message about what you did this round of changes"
+Download GitHub History and incorporate Changes: git pull
+Push changes to remote repo (GitHub): git push origin master
+
+
+

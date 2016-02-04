@@ -27,4 +27,3 @@ lascan <- lascan[-c(13,14,15,17,18,19,20,23,24,106),]
 
 # 5 merge plot.summ and lascan
 metrics <- merge(lascan, plot.summ, by="RIPID")
-
