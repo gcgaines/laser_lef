@@ -92,3 +92,7 @@ plot.summ$ba.ac.live <- with(plot.summ, 4*ba.live)
 plot.summ$TPA.total <- with(plot.summ, 4*total.count)
 plot.summ$TPA.live <- with(plot.summ, 4*live.count)
 
+# 14) Crown Length 
+plot.summ$crown.length.total <- with(plot.summ, MeanHt.total-MeanCrownHT.total)
+plot.summ$crown.length.live <- with(plot.summ, MeanHt.live-MeanCrownHT.live)
+
