@@ -3,7 +3,7 @@
 library(lattice)
 library(RODBC)
 
-#! 1. set directory and file name
+### #! 1. set directory and file name
 accessdb <- "CFC_RIPDB_2015_010316.accdb"
 db.dir <- "c:\\gaines\\projects\\lubrecht\\data"
 #db.dir <- "//cfc.umt.edu/Resources/Lubrecht/ResourceInventoryPlots"
