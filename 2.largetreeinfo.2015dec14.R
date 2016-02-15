@@ -52,16 +52,16 @@ proj.ds$ba <- with(proj.ds, .005454*DBH^2)
 #  2) Calculate and add a BA/tree column for LIVE trees in proj.ds
 proj.ds$ba.live <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"),0,ba))
 
-#  Add a count column with '1' for every row.
+#  3) add a count column with '1' for every row.
 proj.ds$total.count <- 1
 
-#  3) add a column with '1' for live trees and '0' for dead trees
+#  4) add a column with '1' for live trees and '0' for dead trees
 proj.ds$live.count <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"),0,1))
 
-#  add a 'squared DBH'column
+#  5) add a 'squared DBH'column
 proj.ds$DBHsq <- proj.ds$DBH^2
 
-#  5) sum and aggregate to plot level 
+#  6) sum and aggregate to plot level 
 plot.summ <- aggregate(proj.ds[, c(6,7,9,17,18,19,20,21)], by=list(RIPID=proj.ds$RIPID), sum, na.rm=T)
 
 #  7) Arithmetic mean DBH per plot
@@ -76,15 +76,19 @@ plot.summ$QMD.live <- with(plot.summ, sqrt(DBHsq/live.count))
 plot.summ$MeanHt.total <- with(plot.summ, TotalHt/total.count)
 plot.summ$MeanHt.live <- with(plot.summ, TotalHt/live.count)
 
-#  10) Mean CrownHT per plot
+# 10) Max TotalHT per plot
+maxs <- aggregate(proj.ds[, 7], by=list(RIPID=proj.ds$RIPID), max, na.rm=T)
+plot.summ$MaxHt.total <- maxs$x
+
+# 11) Mean CrownHT per plot
 plot.summ$MeanCrownHT.total <- with(plot.summ, CrownHT/total.count)
 plot.summ$MeanCrownHT.live <- with(plot.summ, CrownHT/live.count)
 
-#  11) BA/ac
+# 12) BA/ac
 plot.summ$ba.ac.total <- with(plot.summ, 4*ba)
 plot.summ$ba.ac.live <- with(plot.summ, 4*ba.live)
 
-#  11) TPA
+# 13) TPA
 plot.summ$TPA.total <- with(plot.summ, 4*total.count)
 plot.summ$TPA.live <- with(plot.summ, 4*live.count)
 
