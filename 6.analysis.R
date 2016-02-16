@@ -32,12 +32,14 @@ summary(lrf1)
 
 plot(metrics$QMD.total, metrics$cov)
 lines(spline(metrics$cov, fitted(lrf1)), col=2)
+#lines(spline(sort(metrics$cov), fitted(lrf1)), col=2)
 abline(0,1,lty=3,col=3)
 abline(fm1, col=4)
 
 
 # Basal Area/Acre ~ max laser return height--sucks
-xyplot(ba.ac.live ~ max, data=metrics)
+xyplot(ba.ac.live ~ max, data=metrics, 
+       type=c("p","smooth"))  # points and smoother
 xyplot(ba.ac.total ~ max, data=metrics)
 
 # Basal Area/Acre ~ percent canopy cover
