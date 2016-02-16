@@ -1,7 +1,11 @@
+# the metrics data frame is saved in "metrics.Rdata"
+load(file="metrics.Rdata")
+
+
 # 1 Principle Component Analysis
 
 ?princomp
-pc <- princomp(lascan[,1:(ncol(lascan)-1)], cor=T)
+pc <- princomp(metrics[,1:(ncol(metrics)-1)], cor=T)
 
 summary(pc)
 pc$loadings
