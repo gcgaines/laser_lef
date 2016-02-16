@@ -16,7 +16,7 @@ tile.indx.dir <- "//10.8.103.120/data/vectors"      #where is your tile index?
 tile.indx <- "Lubrecht_LAS_Index"
 
 # where do you want to the lastools output to go?
-products.dir <- "C:/gaines/projects/lubrecht/data/LiDAR/Clipped"  
+products.dir <- "C:/gaines/projects/lubrecht/data/code/laser_lef/laser_lef/laser_clipped"  
 
 #create output directory
 dir.create(file.path(products.dir), showWarnings = F)

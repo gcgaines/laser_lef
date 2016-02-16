@@ -3,13 +3,13 @@
 library(lattice)
 library(RODBC)
 
-### #! 1. set directory and file name
+# 1. set directory and file name
 accessdb <- "CFC_RIPDB_2015_010316.accdb"
-db.dir <- "c:\\gaines\\projects\\lubrecht\\data"
+db.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code\\laser_lef\\laser_lef\\rip_db"
 #db.dir <- "//cfc.umt.edu/Resources/Lubrecht/ResourceInventoryPlots"
 code.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code\\laser_lef\\laser_lef"
 
-#! 2. read the tables from the Access DB
+# 2. read the tables from the Access DB
 setwd(db.dir)
 path <- odbcConnectAccess2007(accessdb)
 accesscontents <- sqlTables(path)

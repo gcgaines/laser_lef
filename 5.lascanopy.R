@@ -16,7 +16,7 @@ lascan <- read.csv(file.path(products.dir,outfiles))
 
 # 3 Add plot number column to laser metrics
 lascan$RIPID <- as.numeric(sub(".las","",
-                  sub("C:/gaines/projects/lubrecht/data/LiDAR/Clipped/crip","",
+                  sub("C:/gaines/projects/lubrecht/data/code/laser_lef/laser_lef/laser_clipped/crip","",
                       as.character(lascan$file_name))))
 lascan <- lascan[,-1]
 
