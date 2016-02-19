@@ -1,0 +1,13 @@
+11 DF_0996.coe                                                 coop2coe.txt           
+12 wl_0797.coe                                                 (I2,ix,A6)
+13 gf_0996.coe                                                 coe's jsp=11,21
+14 pp_0996.coe                                                 and the 2 bark files
+15 lp_0996.coe                                                 for INGY coop.
+16 wc_0996.coe                                                 
+17 mh_0996.coe                                                 This file built by
+18 wp_0996.coe                                                 J. Flewelling
+19 es_0996.coe                                                 Oct. 17, 2002
+20 af_0996.coe
+21 bs_0996.coe
+91 barkbhc2.coe                                                
+92 barkupc2.coe
