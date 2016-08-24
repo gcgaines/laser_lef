@@ -21,7 +21,7 @@ xyplot(QMD.live ~ max, data=metrics)
 xyplot(QMD.total ~ max, data=metrics)
 
 # Quadratic mean diameter ~ percent canopy cover
-xyplot(QMD.live ~ cov, data=metrics, 
+xyplot(qmd.live ~ cov, data=metrics, 
        type=c("p","smooth"))
 xyplot(QMD.total ~ cov, data=metrics)
 
@@ -31,7 +31,7 @@ summary(fm)
 lrf1 <- loess(QMD.total ~ cov, metrics)
 summary(lrf1)
 
-plot(metrics$QMD.total, metrics$cov)
+plot(metrics$qmd.total, metrics$cov)
 lines(spline(metrics$cov, fitted(lrf1)), col=2)
 #lines(spline(sort(metrics$cov), fitted(lrf1)), col=2)
 abline(0,1,lty=3,col=3)

@@ -41,15 +41,10 @@ proj.ds <- large.trees15[!(large.trees15$Status %in% c("C","DD","M")), ]
 
 plot.loc <- rip.db$RIPgpscoords[,c("RIPID","UTMX_Predicted","UTMY_Predicted")]
 
-#write.csv(proj.ds, file="lef2015trees.csv", row.names=F)
-#write.csv(plot.loc, file="lef2015plots.csv", row.names=F)
-
-### next steps...
-
-#  1) Calculate and add a BA/tree column in proj.ds
+#  1) Calculate and add a column for BA per tree, all trees, in proj.ds
 proj.ds$ba <- with(proj.ds, .005454*DBH^2)
 
-#  2) Calculate and add a BA/tree column for LIVE trees in proj.ds
+#  2) Calculate and add a column for BA per tree, live trees, in proj.ds
 proj.ds$ba.live <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"),0,ba))
 
 #  3) add a count column with '1' for every row.
@@ -59,40 +54,75 @@ proj.ds$total.count <- 1
 proj.ds$live.count <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"),0,1))
 
 #  5) add a 'squared DBH'column
-proj.ds$DBHsq <- proj.ds$DBH^2
+proj.ds$dbh.sq <- proj.ds$DBH^2
 
-#  6) sum and aggregate to plot level 
-plot.summ <- aggregate(proj.ds[, c(6,7,9,17,18,19,20,21)], by=list(RIPID=proj.ds$RIPID), sum, na.rm=T)
+#  6) Per Tree crown length
+proj.ds$crown.length <- with(proj.ds, TotalHt-CrownHT)
 
-#  7) Arithmetic mean DBH per plot
-plot.summ$meanDBH.total <- with(plot.summ, DBH/total.count)
-plot.summ$meanDBH.live <- with(plot.summ, DBH/live.count)
+#  7) Crown biomass per tree by species, lbs., Brown 1978
 
-#  8) Quadratic mean DBH per plot
-plot.summ$QMD.total <- with(plot.summ, sqrt(DBHsq/total.count))
-plot.summ$QMD.live <- with(plot.summ, sqrt(DBHsq/live.count))
+e <- exp(1)
 
-#  9) Mean TotalHt per plot
-plot.summ$MeanHt.total <- with(plot.summ, TotalHt/total.count)
-plot.summ$MeanHt.live <- with(plot.summ, TotalHt/live.count)
+crown.biomass <- function(species, dbh, ht, c){
+  mass <- 0 + (species=="AF")*(7.345 + 1.255*(dbh^2)) +
+    (species=="DF")*(27.94-(0.008695*(dbh^2*ht)) + 0.02839*(dbh^2*c)) +
+    (species=="ES")*(e^(1.0404 + 1.7096*(log(dbh)))) +
+    (species=="LP")*(e^(0.1224 + 1.8820*(log(dbh)))) +
+    (species=="PP")*(e^(0.2680 + 2.0740*(log(dbh)))) +
+    (species=="WL")*(e^(0.4373 + 1.6786*(log(dbh))))
+  mass
+}
 
-# 10) Max TotalHT per plot
+proj.ds$crown.mass <- crown.biomass(proj.ds$Species, proj.ds$DBH, 
+                                    proj.ds$TotalHt, proj.ds$crown.length)
+
+#  8) Crown biomass in kg
+proj.ds$crown.mass.kg <- proj.ds$crown.mass/2.2046
+
+#  9) sum and aggregate to plot level 
+plot.summ <- aggregate(proj.ds[, c(6,7,9,17,18,19,20,21,22,23,24)], 
+                       by=list(RIPID=proj.ds$RIPID), sum, na.rm=T)
+
+#  10) Arithmetic mean DBH per plot
+plot.summ$mean.dbh.total <- with(plot.summ, DBH/total.count)
+plot.summ$mean.dbh.live <- with(plot.summ, DBH/live.count)
+
+#  11) Quadratic mean DBH per plot
+plot.summ$qmd.total <- with(plot.summ, sqrt(dbh.sq/total.count))
+plot.summ$qmd.live <- with(plot.summ, sqrt(dbh.sq/live.count))
+
+#  12) Mean TotalHt per plot
+plot.summ$mean.ht.total <- with(plot.summ, TotalHt/total.count)
+plot.summ$mean.ht.live <- with(plot.summ, TotalHt/live.count)
+
+# 13) Max TotalHT per plot
 maxs <- aggregate(proj.ds[, 7], by=list(RIPID=proj.ds$RIPID), max, na.rm=T)
-plot.summ$MaxHt.total <- maxs$x
+plot.summ$max.ht.total <- maxs$x
 
-# 11) Mean CrownHT per plot
-plot.summ$MeanCrownHT.total <- with(plot.summ, CrownHT/total.count)
-plot.summ$MeanCrownHT.live <- with(plot.summ, CrownHT/live.count)
+# 14) Mean CrownHT per plot
+plot.summ$mean.crownht.total <- with(plot.summ, CrownHT/total.count)
+plot.summ$mean.crownht.live <- with(plot.summ, CrownHT/live.count)
 
-# 12) BA/ac
+# 15) BA/ac
 plot.summ$ba.ac.total <- with(plot.summ, 4*ba)
 plot.summ$ba.ac.live <- with(plot.summ, 4*ba.live)
 
-# 13) TPA
-plot.summ$TPA.total <- with(plot.summ, 4*total.count)
-plot.summ$TPA.live <- with(plot.summ, 4*live.count)
+# 16) TPA
+plot.summ$tpa.total <- with(plot.summ, 4*total.count)
+plot.summ$tpa.live <- with(plot.summ, 4*live.count)
 
-# 14) Crown Length 
-plot.summ$crown.length.total <- with(plot.summ, MeanHt.total-MeanCrownHT.total)
-plot.summ$crown.length.live <- with(plot.summ, MeanHt.live-MeanCrownHT.live)
+# 17) Crown Length 
+plot.summ$crown.length.total <- with(plot.summ, mean.ht.total-mean.crownht.total)
+plot.summ$crown.length.live <- with(plot.summ, mean.ht.live-mean.crownht.live)
+
+# 18) Crown Ratio
+plot.summ$crown.ratio.total <- with(plot.summ, crown.length.total/mean.ht.total)
+plot.summ$crown.ratio.live <- with(plot.summ, crown.length.live/mean.ht.live)
+
+# 19) Mean live crown biomass per plot, lbs
+plot.summ$mean.crown.mass.lbs <- with(plot.summ, crown.mass/live.count)
+
+# 20) Mean live crown biomass per plot, kg
+plot.summ$mean.crown.mass.kg <- with(plot.summ, crown.mass.kg/live.count)
+
 
