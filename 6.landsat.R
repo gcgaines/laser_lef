@@ -30,38 +30,68 @@ metrics <- merge(metrics, mean.15.50m, by="RIPID")
 metrics <- merge(metrics, min.15.50m, by="RIPID")
 
 ## Rename all these wonky column names
-colnames(metrics)[50] <- "B1.max"
-colnames(metrics)[51] <- "B2.max"
-colnames(metrics)[52] <- "B3.max"
-colnames(metrics)[53] <- "B4.max"
-colnames(metrics)[54] <- "B5.max"
-colnames(metrics)[55] <- "evi.max"
-colnames(metrics)[56] <- "mndwi.max"
-colnames(metrics)[57] <- "ndvi.max"
-colnames(metrics)[58] <- "ndwi.max"
-colnames(metrics)[59] <- "B1.mean"
-colnames(metrics)[60] <- "B2.mean"
-colnames(metrics)[61] <- "B3.mean"
-colnames(metrics)[62] <- "B4.mean"
-colnames(metrics)[63] <- "B5.mean"
-colnames(metrics)[64] <- "evi.mean"
-colnames(metrics)[65] <- "mndwi.mean"
-colnames(metrics)[66] <- "ndvi.mean"
-colnames(metrics)[67] <- "ndwi.mean"
-colnames(metrics)[68] <- "B1.min"
-colnames(metrics)[69] <- "B2.min"
-colnames(metrics)[70] <- "B3.min"
-colnames(metrics)[71] <- "B4.min"
-colnames(metrics)[72] <- "B5.min"
-colnames(metrics)[73] <- "evi.min"
-colnames(metrics)[74] <- "mndwi.min"
-colnames(metrics)[75] <- "ndvi.min"
-colnames(metrics)[76] <- "ndwi.min"
+colnames(metrics)[56] <- "B1.max"
+colnames(metrics)[57] <- "B2.max"
+colnames(metrics)[58] <- "B3.max"
+colnames(metrics)[59] <- "B4.max"
+colnames(metrics)[60] <- "B5.max"
+colnames(metrics)[61] <- "evi.max"
+colnames(metrics)[62] <- "mndwi.max"
+colnames(metrics)[63] <- "ndvi.max"
+colnames(metrics)[64] <- "ndwi.max"
+colnames(metrics)[65] <- "B1.mean"
+colnames(metrics)[66] <- "B2.mean"
+colnames(metrics)[67] <- "B3.mean"
+colnames(metrics)[68] <- "B4.mean"
+colnames(metrics)[69] <- "B5.mean"
+colnames(metrics)[70] <- "evi.mean"
+colnames(metrics)[71] <- "mndwi.mean"
+colnames(metrics)[72] <- "ndvi.mean"
+colnames(metrics)[73] <- "ndwi.mean"
+colnames(metrics)[74] <- "B1.min"
+colnames(metrics)[75] <- "B2.min"
+colnames(metrics)[76] <- "B3.min"
+colnames(metrics)[77] <- "B4.min"
+colnames(metrics)[78] <- "B5.min"
+colnames(metrics)[79] <- "evi.min"
+colnames(metrics)[80] <- "mndwi.min"
+colnames(metrics)[81] <- "ndvi.min"
+colnames(metrics)[82] <- "ndwi.min"
 
 # Calculate change in Landsat metrics from 2010 to 2015
 max.change <- max.15.50m - max.10.50m
 mean.change <- mean.15.50m - mean.10.50m
 min.change <- min.15.50m - min.10.50m
+
+# species proportions as factors?
+metrics$AF <- as.factor(metrics$AF)
+metrics$DF <- as.factor(metrics$DF)
+metrics$LP <- as.factor(metrics$LP)
+metrics$WL <- as.factor(metrics$WL)
+metrics$PP <- as.factor(metrics$PP)
+metrics$ES <- as.factor(metrics$ES)
+
+metrics$af <- as.numeric(metrics$AF)
+metrics$df <- as.numeric(metrics$DF)
+metrics$lp <- as.numeric(metrics$LP)
+metrics$wl <- as.numeric(metrics$WL)
+metrics$pp <- as.numeric(metrics$PP)
+metrics$es <- as.numeric(metrics$ES)
+
+# tried to adapt this figure to look at crown biomass by species proportions,
+# and realized I had no idea what I was doing. Perhaps have to make a variable
+# which is "species dominance"?
+with(metrics, plot(jitter(rgn),species.count, #plot species counts, jittered
+                xlab="Region",
+                ylab="Species Counts",
+                axes=F))
+axis(2); box() #add vertical axis and box
+axis(1,at=1:3,labels=levels(data$region))
+means <- aggregate(data$species.count,list(data$region),mean,na.rm=T)
+vars <- aggregate(data$species.count,list(data$region),var,na.rm=T)
+segments((1:3)-.1, rep(means$x,3),(1:3)+.1, rep(means$x,3),col="blue")
+segments((1:3), rep(means$x,3)+sqrt(vars$x),
+         (1:3), rep(means$x,3)-sqrt(vars$x),col="blue")
 
 # An example of a for loop to try to figure out how the hell to make one.
 

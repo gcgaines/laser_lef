@@ -59,6 +59,24 @@ proj.ds$dbh.sq <- proj.ds$DBH^2
 #  6) Per Tree crown length
 proj.ds$crown.length <- with(proj.ds, TotalHt-CrownHT)
 
+# add a column with '1' for species = AF
+proj.ds$AF <- with(proj.ds, ifelse(Species == "AF",1,0))
+
+# add a column with '1' for species = DF
+proj.ds$DF <- with(proj.ds, ifelse(Species == "DF",1,0))
+
+# add a column with '1' for species = LP
+proj.ds$LP <- with(proj.ds, ifelse(Species == "LP",1,0))
+
+# add a column with '1' for species = WL
+proj.ds$WL <- with(proj.ds, ifelse(Species == "WL",1,0))
+
+# add a column with '1' for species = PP
+proj.ds$PP <- with(proj.ds, ifelse(Species == "PP",1,0))
+
+# add a column with '1' for species = ES
+proj.ds$ES <- with(proj.ds, ifelse(Species == "ES",1,0))
+
 #  7) Crown biomass per tree by species, lbs., Brown 1978
 
 e <- exp(1)
@@ -80,8 +98,16 @@ proj.ds$crown.mass <- crown.biomass(proj.ds$Species, proj.ds$DBH,
 proj.ds$crown.mass.kg <- proj.ds$crown.mass/2.2046
 
 #  9) sum and aggregate to plot level 
-plot.summ <- aggregate(proj.ds[, c(6,7,9,17,18,19,20,21,22,23,24)], 
+plot.summ <- aggregate(proj.ds[, c(6,7,9,17:30)], 
                        by=list(RIPID=proj.ds$RIPID), sum, na.rm=T)
+
+# calculate species proportions
+plot.summ$AF <- round((plot.summ$AF/plot.summ$total.count), digits = 2)
+plot.summ$DF <- round((plot.summ$DF/plot.summ$total.count), digits = 2)
+plot.summ$LP <- round((plot.summ$LP/plot.summ$total.count), digits = 2)
+plot.summ$WL <- round((plot.summ$WL/plot.summ$total.count), digits = 2)
+plot.summ$PP <- round((plot.summ$PP/plot.summ$total.count), digits = 2)
+plot.summ$ES <- round((plot.summ$ES/plot.summ$total.count), digits = 2)
 
 #  10) Arithmetic mean DBH per plot
 plot.summ$mean.dbh.total <- with(plot.summ, DBH/total.count)
