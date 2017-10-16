@@ -28,6 +28,6 @@ lascan <- lascan[-c(13,14,15,17,18,19,20,23,24,106),]
 # 5 merge plot.summ and lascan
 metrics <- merge(lascan, plot.summ, by="RIPID")
 
-# 6 save the metrics r data frame for the other guy
+# 6 save the metrics r data file for the other guy
 setwd(code.dir)
 save(metrics,file="metrics.Rdata")
