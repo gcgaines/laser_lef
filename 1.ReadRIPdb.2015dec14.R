@@ -4,11 +4,8 @@ library(lattice)
 library(RODBC)
 
 # 1. set directory and file name
-accessdb <- "CFC_RIPDB_2015_021916.accdb"
-#db.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code\\laser_lef\\laser_lef\\rip_db"
-#db.dir <- "//cfc.umt.edu/Resources/Lubrecht/ResourceInventoryPlots"
-#code.dir <- "c:\\gaines\\projects\\lubrecht\\data\\code\\laser_lef\\laser_lef"
-
+# accessdb <- "CFC_RIPDB_2015_021916.accdb" where did this file go?
+accessdb <- "CFC_RIPDB_2015_010316.accdb"
 code.dir <- getwd()
 db.dir <- file.path(code.dir,"rip_db")
 

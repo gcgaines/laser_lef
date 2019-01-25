@@ -10,10 +10,10 @@ large.trees <- merge(large.trees, dateinfo[,c(1:3,5)], all.x=T)
 #! 2. get 2015 measurements and check
 large.trees15 <- droplevels(large.trees[large.trees$year==2015,])
 
-#xyplot(TotalHt ~ DBH | Species, data=large.trees15,
- #      panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
+# xyplot(TotalHt ~ DBH | Species, data=large.trees15,
+  #     panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
 
-#xyplot(CrownHT ~ TotalHt |  Species, data=large.trees15,
+# xyplot(CrownHT ~ TotalHt |  Species, data=large.trees15,
  #      panel=function(x,y,...){panel.abline(0,1); panel.points(x,y)})
 
 # Plot CrownHT/TotalHT by species; Use 'identify' to find weird trees
@@ -33,7 +33,7 @@ large.trees15 <- droplevels(large.trees[large.trees$year==2015,])
  #             large.trees15$CrownHT>.9*large.trees15$TotalHt, ]
 
 
-#table(large.trees15$Status)
+# table(large.trees15$Status)
 
 
 # subset analysis data
@@ -56,7 +56,7 @@ proj.ds$live.count <- with(proj.ds, ifelse(Status %in% c("DS","DEAD MISSING TAG"
 #  5) add a 'squared DBH'column
 proj.ds$dbh.sq <- proj.ds$DBH^2
 
-#  6) Per Tree crown length
+#  6) crown length 
 proj.ds$crown.length <- with(proj.ds, TotalHt-CrownHT)
 
 # add a column with '1' for species = AF
@@ -150,5 +150,3 @@ plot.summ$mean.crown.mass.lbs <- with(plot.summ, crown.mass/live.count)
 
 # 20) Mean live crown biomass per plot, kg
 plot.summ$mean.crown.mass.kg <- with(plot.summ, crown.mass.kg/live.count)
-
-
