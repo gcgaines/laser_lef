@@ -93,18 +93,6 @@ segments((1:3)-.1, rep(means$x,3),(1:3)+.1, rep(means$x,3),col="blue")
 segments((1:3), rep(means$x,3)+sqrt(vars$x),
          (1:3), rep(means$x,3)-sqrt(vars$x),col="blue")
 
-# An example of a for loop to try to figure out how the hell to make one.
-
-u1 <- rnorm(30)
-
-for(i in 1:NROW(u1))
-{
-  usq[i] <- u1[i] * u1[i]
-  print(usq[i])
-}
-
-print(i)
-
 # save the metrics r data frame for the other guy
 setwd(code.dir)
 save(metrics,file="metrics.Rdata")

@@ -22,8 +22,10 @@ tileids <- over(locs.sp, tiles)
 tileids$RIPID <- rownames(tileids)
 tileids$LAS_ID <- as.character(tileids$LAS_ID)
 
-locs <- merge(locs,tileids,all.x=T)
+plot(tiles)
+plot(tiles[tiles$LAS_ID%in%tileids$LAS_ID,],col="red",add=T)
 
+locs <- merge(locs,tileids,all.x=T)
 
 #5 clip laser tiles by plot and get canopy height model
 for (i in 1:nrow(locs)){
