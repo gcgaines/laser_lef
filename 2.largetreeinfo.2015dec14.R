@@ -109,6 +109,37 @@ plot.summ$WL <- round((plot.summ$WL/plot.summ$total.count), digits = 2)
 plot.summ$PP <- round((plot.summ$PP/plot.summ$total.count), digits = 2)
 plot.summ$ES <- round((plot.summ$ES/plot.summ$total.count), digits = 2)
 
+# species dominance (species with biggest proportion on plot)
+# species <-c("AF","DF","LP","WL","PP","ES")
+plot.summ$dom <- "other"
+# AF
+plot.summ$dom <- ifelse(plot.summ$AF>plot.summ$DF&
+         plot.summ$AF>plot.summ$LP&plot.summ$AF>plot.summ$WL&plot.summ$AF>plot.summ$PP&
+         plot.summ$AF>plot.summ$ES,"AF",plot.summ$dom)
+# DF
+plot.summ$dom <- ifelse(plot.summ$DF>plot.summ$AF&
+         plot.summ$DF>plot.summ$LP&plot.summ$DF>plot.summ$WL&plot.summ$DF>plot.summ$PP&
+         plot.summ$DF>plot.summ$ES,"DF",plot.summ$dom)
+# LP
+plot.summ$dom <- ifelse(plot.summ$LP>plot.summ$AF&
+        plot.summ$LP>plot.summ$DF&plot.summ$LP>plot.summ$WL&plot.summ$LP>plot.summ$PP&
+        plot.summ$LP>plot.summ$ES,"LP",plot.summ$dom)
+# WL
+plot.summ$dom <- ifelse(plot.summ$WL>plot.summ$AF&
+        plot.summ$WL>plot.summ$LP&plot.summ$WL>plot.summ$DF&plot.summ$WL>plot.summ$PP&
+        plot.summ$WL>plot.summ$ES,"WL",plot.summ$dom)
+# PP
+plot.summ$dom <- ifelse(plot.summ$PP>plot.summ$AF&
+        plot.summ$PP>plot.summ$LP&plot.summ$PP>plot.summ$WL&plot.summ$PP>plot.summ$DF&
+        plot.summ$PP>plot.summ$ES,"PP",plot.summ$dom)
+# ES
+plot.summ$dom <- ifelse(plot.summ$ES>plot.summ$AF&
+        plot.summ$ES>plot.summ$LP&plot.summ$ES>plot.summ$WL&plot.summ$ES>plot.summ$PP&
+        plot.summ$ES>plot.summ$DF,"ES",plot.summ$dom)
+head(plot.summ)
+table(plot.summ$dom)
+plot.summ$dom <- as.factor(plot.summ$dom)
+
 #  10) Arithmetic mean DBH per plot
 plot.summ$mean.dbh.total <- with(plot.summ, DBH/total.count)
 plot.summ$mean.dbh.live <- with(plot.summ, DBH/live.count)
